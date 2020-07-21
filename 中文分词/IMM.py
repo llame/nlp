@@ -34,8 +34,7 @@ class IMM(object):
                 index = index - 1
         return result[::-1]
 
-
-def main():
+if __name__ == '__main__':
     text = '南京市长江大桥'
     tokenizer = IMM('data/1-imm_dic.utf8')
     result = tokenizer.cut(text)
