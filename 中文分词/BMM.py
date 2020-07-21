@@ -3,7 +3,7 @@ from 中文分词 import MM
 
 # 双向最大匹配(将选取词数切分最小)
 if __name__ == '__main__':
-    text = '南京市长江大桥'
+    text = '南京市长江大桥！'
     path_dic = 'data/1-imm_dic.utf8'
 
     tokenizer_IMM = IMM.IMM(path_dic)
