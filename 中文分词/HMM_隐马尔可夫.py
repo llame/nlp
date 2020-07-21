@@ -148,6 +148,7 @@ class HMM(object):
         if next < len(text):
             yield text[next:]
 
+#隐马尔可夫
 if __name__ == '__main__':
     hmm = HMM()
     hmm.train('data/3-trainCorpus.txt_utf8')
