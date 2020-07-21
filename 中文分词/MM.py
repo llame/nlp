@@ -34,7 +34,7 @@ class MM(object):
                 index = index + 1
         return result
 
-
+#（正向最大匹配）算法
 if __name__ == "__main__":
     text = '南京市长江大桥'
     tokenizer = MM('data/1-imm_dic.utf8')

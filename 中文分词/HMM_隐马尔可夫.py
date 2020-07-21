@@ -104,7 +104,7 @@ class HMM(object):
         path = {}
         for y in states:
             v[0][y] = start_p[y] * emit_p[y].get(text[0], 0)
-            path[y]=[y]
+            path[y] = [y]
         for t in range(1, len(text)):
             v.append({})
             newpath = {}
@@ -118,43 +118,39 @@ class HMM(object):
             for y in states:
                 emitp = emit_p[y].get(text[t], 0) if not neverSeen else 1.0  # 设置未知单独成词
                 (prob, state) = max([(v[t - 1][y0] * trans_p[y0].get(y, 0) * emitp, y0) for y0 in states if v[t - 1][y0] > 0])
-                v[t][y]=prob
-                newpath[y]=path[state]+[y]
+                v[t][y] = prob
+                newpath[y] = path[state] + [y]
 
-            path=newpath
+            path = newpath
 
-        if emit_p['M'].get(text[-1],0)>emit_p['S'].get(text[-1],0):
-            (prob,state)=max([(v[len(text)-1][y],y) for y in ('E','M')])
+        if emit_p['M'].get(text[-1], 0) > emit_p['S'].get(text[-1], 0):
+            (prob, state) = max([(v[len(text) - 1][y], y) for y in ('E', 'M')])
         else:
-            (prob,state)=max([(v[len(text)-1][y],y) for y in states])
+            (prob, state) = max([(v[len(text) - 1][y], y) for y in states])
 
-        return (prob,path[state])
+        return (prob, path[state])
 
     def cut(self, text):
 
-        prob,pos_list=self.viterbi(text,self.state_list,self.Pi_dic,self.A_dic,self.B_dic)
+        prob, pos_list = self.viterbi(text, self.state_list, self.Pi_dic, self.A_dic, self.B_dic)
         print(str(pos_list))
-        begin,next=0,0
-        for i,char in enumerate(text):
-            pos=pos_list[i]
-            if pos=='B':
-                begin=i
-            elif pos=='E':
-                yield  text[begin:i+1]
-                next=i+1
-            elif pos=='S':
-                yield  char
-                next=i+1
-        if next<len(text):
-            yield  text[next:]
+        begin, next = 0, 0
+        for i, char in enumerate(text):
+            pos = pos_list[i]
+            if pos == 'B':
+                begin = i
+            elif pos == 'E':
+                yield text[begin:i + 1]
+                next = i + 1
+            elif pos == 'S':
+                yield char
+                next = i + 1
+        if next < len(text):
+            yield text[next:]
 
-
-
-
-
-
-hmm = HMM()
-hmm.train('data/3-trainCorpus.txt_utf8')
-text='这是一个非常棒的方案'
-res=hmm.cut(text)
-print(str(list(res)))
+if __name__ == '__main__':
+    hmm = HMM()
+    hmm.train('data/3-trainCorpus.txt_utf8')
+    text = '一名青年安静地坐在窗台上,隔着窗户玻璃看着屋内'
+    res = hmm.cut(text)
+    print(str(list(res)))
